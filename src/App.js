@@ -21,9 +21,9 @@ import AdminNowPage from "./pages/AdminNowPage";
 import AdminEmployee from "./pages/AdminEmployee";
 import Plots from "./pages/Plots";
 import NotTask from "./pages/NotTask";
+import UsersLoginPage from "./pages/UsersLoginPage";
 
-
-const ProtectedRoute = ({ element }) => {
+const ProtectedRouteUser = ({ element }) => {
   const isAuthenticated = localStorage.getItem("authenticated");
   const navigate = useNavigate();
 
@@ -33,8 +33,19 @@ const ProtectedRoute = ({ element }) => {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
+  return element;
+};
 
+const ProtectedRouteAdmin = ({ element }) => {
+  const isAdmin = localStorage.getItem("isAdmin");
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isAdmin) {
+      // Redirect to the login page if not authenticated
+      navigate("/");
+    }
+  }, [isAdmin, navigate]);
   return element;
 };
 
@@ -45,21 +56,22 @@ function App() {
       
       <Router>
         <Routes>
-          <Route path="/" element={<StartPage />} /> 
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/spot/:id" element={<SpotPage />} />   
-          <Route path="/task/:id/:employeeId" element={<TaskPage />} />
-          <Route path="/comment/:id/:employeeId/:taskId/" element={<CommentPage />} />
-          <Route path="/admin-page" element={<ProtectedRoute element={<AdminPage />}/>} /> 
-          <Route path="/admin-task-type" element={<ProtectedRoute element={<AdminTaskTypePage/>}/>} />
-          <Route path="/admin-task/:type" element={<ProtectedRoute element={<AdminTaskPage/>}/>} />
-          <Route path="/admin-task/other" element={<ProtectedRoute element={<AdminTaskOther/>}/>} />
-          <Route path="/admin-task-list" element={<ProtectedRoute element={<AdminTaskListPage/>}/>} />
-          <Route path="/admin-now-task-list" element={<ProtectedRoute element={<AdminNowPage/>}/>} />
-          <Route path="/admin-employee" element={<ProtectedRoute element={<Plots/>}/>} />
-          <Route path="/admin-employee/:id" element={<ProtectedRoute element={<AdminEmployee/>}/>} />
-          <Route path="/report" element={<ProtectedRoute element={<ReportPage/>}/>} />
-          <Route path="/not-task" element={<NotTask/>} />
+          <Route path="/" element={<UsersLoginPage />} />
+          <Route path="/start" element={<ProtectedRouteUser element={<StartPage />}/>} />
+          <Route path="/login" element={<ProtectedRouteUser element={<LoginPage />}/>} />
+          <Route path="/spot/:id" element={<ProtectedRouteUser element={<SpotPage />}/>} />
+          <Route path="/task/:id/:employeeId" element={<ProtectedRouteUser element={<TaskPage />}/>} />
+          <Route path="/comment/:id/:employeeId/:taskId/" element={<ProtectedRouteUser element={<CommentPage />}/>} />
+          <Route path="/admin-page" element={<ProtectedRouteAdmin element={<AdminPage />}/>} />
+          <Route path="/admin-task-type" element={<ProtectedRouteAdmin element={<AdminTaskTypePage/>}/>} />
+          <Route path="/admin-task/:type" element={<ProtectedRouteAdmin element={<AdminTaskPage/>}/>} />
+          <Route path="/admin-task/other" element={<ProtectedRouteAdmin element={<AdminTaskOther/>}/>} />
+          <Route path="/admin-task-list" element={<ProtectedRouteAdmin element={<AdminTaskListPage/>}/>} />
+          <Route path="/admin-now-task-list" element={<ProtectedRouteAdmin element={<AdminNowPage/>}/>} />
+          <Route path="/admin-employee" element={<ProtectedRouteAdmin element={<Plots/>}/>} />
+          <Route path="/admin-employee/:id" element={<ProtectedRouteAdmin element={<AdminEmployee/>}/>} />
+          <Route path="/report" element={<ProtectedRouteAdmin element={<ReportPage/>}/>} />
+          <Route path="/not-task" element={<ProtectedRouteUser element={<NotTask />}/>} />
 
         </Routes>
 
