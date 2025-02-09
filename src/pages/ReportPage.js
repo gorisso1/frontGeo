@@ -151,84 +151,105 @@ function ReportPage() {
         </Button>
         <div className='header'>GD TIME<br/>Отчет</div>
         </div>
-        <Form onSubmit={handleAddClick}>
-        <div className='block'>
-        <Row className='admin-botton'>
-        <Col>
-        <Form.Group controlId="dob" className='mb-3'>
-                    <Col>
-                    <Form.Label>Выберите первую дату</Form.Label>
-                    </Col>
-                    <Col >
-                    <div className="customDatePickerWidth">
-                    <DatePicker
-                            style={{width: '100% !important'}}
-                            selected={formData.date1 ? parseDateFromString(formData.date1) : null}
-                            onChange={handleDate1}
-                            dateFormat="dd-MM-yyyy" 
-                            showMonthDropdown 
-                            showYearDropdown
-                            dropdownMode="select"
-                            customInput={
-                                <Form.Control
-                                    name = 'date1'
-                                    className={`custom-datepicker-input ${
-                                        shouldApplyRedStyle1 ? 'red-form' : '' // Опциональный стиль для поля ввода
-                                      }`}
-                                    as={InputMask}
-                                    mask="99-99-9999"
-                                    size='lg'
-                                    style={{ width: '100%', borderWidth: '2px', borderRadius: '20px', borderColor: 'black', boxShadow: 'none' }}
-                                    />
-                              }
-                    />
-                    </div>
-                    </Col>
-        </Form.Group>
-        </Col>
+            <Form onSubmit={handleAddClick}>
+                <div className='block'>
+                    <Row className='admin-botton'>
+                        <Col>
+                            <Form.Group controlId="dob" className='mb-3'>
+                                <Col>
+                                    <Form.Label>Выберите первую дату</Form.Label>
+                                </Col>
+                                <Col>
+                                    <div className="customDatePickerWidth">
+                                        <DatePicker
+                                            style={{width: '100% !important'}}
+                                            selected={formData.date1 ? parseDateFromString(formData.date1) : null}
+                                            onChange={handleDate1}
+                                            dateFormat="dd-MM-yyyy"
+                                            showMonthDropdown
+                                            showYearDropdown
+                                            dropdownMode="select"
+                                            customInput={
+                                                <Form.Control
+                                                    name='date1'
+                                                    className={`custom-datepicker-input ${
+                                                        shouldApplyRedStyle1 ? 'red-form' : '' // Опциональный стиль для поля ввода
+                                                    }`}
+                                                    as={InputMask}
+                                                    mask="99-99-9999"
+                                                    size='lg'
+                                                    style={{
+                                                        width: '100%',
+                                                        borderWidth: '2px',
+                                                        borderRadius: '20px',
+                                                        borderColor: 'black',
+                                                        boxShadow: 'none'
+                                                    }}
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                </Col>
+                            </Form.Group>
+                        </Col>
 
-        <Col>
-        <Form.Group controlId="dob" className='mb-3'>
-                    <Col>
-                    <Form.Label>Выберите вторую дату</Form.Label>
+                        <Col>
+                            <Form.Group controlId="dob" className='mb-3'>
+                                <Col>
+                                    <Form.Label>Выберите вторую дату</Form.Label>
+                                </Col>
+                                <Col>
+                                    <div className="customDatePickerWidth">
+                                        <DatePicker
+                                            style={{width: '100% !important'}}
+                                            selected={formData.date2 ? parseDateFromString(formData.date2) : null}
+                                            onChange={handleDate2}
+                                            dateFormat="dd-MM-yyyy"
+                                            showMonthDropdown
+                                            showYearDropdown
+                                            dropdownMode="select"
+                                            customInput={
+                                                <Form.Control
+                                                    name='date2'
+                                                    className={`custom-datepicker-input ${
+                                                        shouldApplyRedStyle2 ? 'red-form' : '' // Опциональный стиль для поля ввода
+                                                    }`}
+                                                    as={InputMask}
+                                                    mask="99-99-9999"
+                                                    size='lg'
+                                                    style={{
+                                                        width: '100%',
+                                                        borderWidth: '2px',
+                                                        borderRadius: '20px',
+                                                        borderColor: 'black',
+                                                        boxShadow: 'none'
+                                                    }}
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                </Col>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                </div>
+                <div className='block'>
+                    <Col className='admin-botton'>
+                        <div className="d-grid gap-2" style={{marginTop: '200px'}}>
+                            <Button className='admin-botton-color' variant="dark" type='submit' size='lg'>Скачать
+                                отчет</Button>
+                        </div>
                     </Col>
-                    <Col >
-                    <div className="customDatePickerWidth">
-                    <DatePicker
-                            style={{width: '100% !important'}}
-                            selected={formData.date2 ? parseDateFromString(formData.date2) : null}
-                            onChange={handleDate2}
-                            dateFormat="dd-MM-yyyy" 
-                            showMonthDropdown 
-                            showYearDropdown
-                            dropdownMode="select"
-                            customInput={
-                                <Form.Control
-                                    name = 'date2'
-                                    className={`custom-datepicker-input ${
-                                        shouldApplyRedStyle2 ? 'red-form' : '' // Опциональный стиль для поля ввода
-                                      }`}
-                                    as={InputMask}
-                                    mask="99-99-9999"
-                                    size='lg'
-                                    style={{ width: '100%', borderWidth: '2px', borderRadius: '20px', borderColor: 'black', boxShadow: 'none' }}
-                                    />
-                              }
-                    />
-                    </div>
+                </div>
+                <div className='block'>
+                    <Col className='admin-botton'>
+                        <div className="d-grid gap-2" style={{marginTop: '0'}}>
+                            <Button className='admin-botton-color' variant="dark" type='submit' size='lg'>Скачать
+                                отчет</Button>
+                        </div>
                     </Col>
-        </Form.Group>
-        </Col>
-        </Row>
-        </div>
-        <div className='block'>
-        <Col className='admin-botton'>                      
-        <div className="d-grid gap-2" style={{marginTop: '200px'}}>
-        <Button className='admin-botton-color'  variant="dark" type='submit' size='lg'>Скачать отчет</Button>
-        </div>
-        </Col>
-        </div>
-        </Form>
+                </div>
+            </Form>
         </Container>
     </>
   )

@@ -38,9 +38,6 @@ function AdminEmployee() {
             return;
         }
 
-
-
-
         sendPostRequestEmployee('employee-task/create/', {
             task_id: sendData.task,
             employee_id: sendData.employees,
