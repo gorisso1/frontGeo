@@ -17,13 +17,16 @@ function StartPage() {
     });
 
     const [employees, setEmployees] = useState([]); // Список сотрудников
+    const [selectedEmployeeName, setSelectedEmployeeName] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
+    const [filteredEmployees, setFilteredEmployees] = useState([])
 
     useEffect(() => {
         sendGetRequest(`employees/`)
             .then((response) => {
                 console.log(response)
                 setEmployees(response);
+                setFilteredEmployees(response)
             })
             .catch((error) => {
                 console.error('Ошибка при получении данных', error);
@@ -35,13 +38,22 @@ function StartPage() {
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setFormData({...formData, [name]: value});
+        if (name === 'id'){
+            setSelectedEmployeeName(value)
+            console.log(value)
+            const findEmployee = employees.find((employee) => value.includes(employee.name) && value.includes(employee.surname))
+            if (findEmployee){
+                console.log("найден")
+                setFormData({ ...formData, id: findEmployee.id });
+            }
+            const filteredEmployee = employees.filter(employee => employee.name.includes(value) || employee.surname.includes(value))
+            setFilteredEmployees(filteredEmployee)
+            console.log(filteredEmployee)
+        }
     };
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        console.log('Request data before stringify:', formData);
-        console.log('JSON.stringify Request data:', JSON.stringify(formData));
 
         try {
             const response = await sendPostRequest("auth/", formData);
@@ -69,7 +81,8 @@ function StartPage() {
     const handleNameClick = (item) => {
         setShowDropdown(false);
         console.log(item)
-        formData.id = item.id;
+        setFormData({ ...formData, id: item.id }); // Сохраняем ID выбранного сотрудника
+        setSelectedEmployeeName(item.name + " " + item.surname); // Отображаем имя
     }
 
     return (
@@ -86,8 +99,8 @@ function StartPage() {
                                     <Form.Control
                                         type="text"
                                         name="id"
-                                        placeholder="Введите id"
-                                        value={formData.id}
+                                        placeholder="Введите имя и фамилию"
+                                        value={selectedEmployeeName}
                                         onChange={handleInputChange}
                                         onClick={() => handleDropdownToggle()}
                                     />
@@ -99,7 +112,7 @@ function StartPage() {
                                             <Row>
                                                 <Col>
                                                     <div className="d-grid gap-2">
-                                                        {employees.map((item) => (
+                                                        {filteredEmployees.map((item) => (
 
                                                             <Button key={item.id}
                                                                     className='admin-botton-color'
@@ -117,11 +130,6 @@ function StartPage() {
                                     </div>
                                 )
                                 }
-
-
-
-
-
 
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
                                     <Form.Control

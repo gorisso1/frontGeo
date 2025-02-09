@@ -249,7 +249,7 @@ function CommentPage() {
         }));
 
         console.log("put data: ", putData)
-        sendPostRequest(`stop-rework/`, {task_id: employeeTaskId}).then((data) => console.log("Кидаем второй запрос на продолжение: ", data))
+        sendPostRequest(`end-rework/`, {task_id: employeeTaskId}).then((data) => console.log("Кидаем второй запрос на продолжение: ", data))
 
     };
 
@@ -560,16 +560,16 @@ function CommentPage() {
                                 </div>
                             </Row>
                         </div>
-                        <div className='block'>
-                            <Row>
-                                <div className="timer">
-                                    <span>Время переделки: </span>
-                                    {String(timeRework.hours).padStart(2, '0')}:
-                                    {String(timeRework.minutes).padStart(2, '0')}:
-                                    {String(timeRework.seconds).padStart(2, '0')}
-                                </div>
-                            </Row>
-                        </div>
+                        {/*<div className='block'>*/}
+                        {/*    <Row>*/}
+                        {/*        <div className="timer">*/}
+                        {/*            <span>Время переделки: </span>*/}
+                        {/*            {String(timeRework.hours).padStart(2, '0')}:*/}
+                        {/*            {String(timeRework.minutes).padStart(2, '0')}:*/}
+                        {/*            {String(timeRework.seconds).padStart(2, '0')}*/}
+                        {/*        </div>*/}
+                        {/*    </Row>*/}
+                        {/*</div>*/}
                         <div className='block'>
                             <Col className='admin-botton'>
                                 <Row>
