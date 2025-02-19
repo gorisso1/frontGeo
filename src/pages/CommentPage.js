@@ -401,9 +401,8 @@ function CommentPage() {
             action: 'end',
         };
 
-        sendPostRequest(`timer/?task_id=${taskId}&employee_id=${employeeId}`, finishData)
+        sendPostRequest(`end-task/`, {task_id: employeeTaskId}).then((data) => console.log("Кидаем второй запрос: ", data))
             .then(() => {
-                sendPostRequest(`end-task/`, {task_id: employeeTaskId}).then((data) => console.log("Кидаем второй запрос: ", data))
 
                 navigate('/start');
             })
