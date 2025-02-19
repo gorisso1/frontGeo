@@ -20,6 +20,7 @@ function CommentPage() {
 
     const [timeRework, setTimeRework] = useState({hours: 0, minutes: 0, seconds: 0})
     const [timerReworkRunning, setTimerReworkRunning] = useState(false);
+    const [shiftTime, setShiftTime] = useState(false)
 
     const [employeeTaskId, setEmployeeTaskId] = useState(null)
 
@@ -206,6 +207,27 @@ function CommentPage() {
 
         fetchData();
     }, [employeeId, id, taskId]);
+
+    const handleStartAfterShiftWork = () => {
+        sendPostRequest(`check-shift/`, {task_id: employeeTaskId})
+            .then((data) => {
+                if (data.message === 'Смена еще не закончилась.') {
+                    alert("Смена еще не закончилась")
+                }
+                else {
+                    setShiftTime(true)
+                    console.log(data)
+                }
+            })
+    }
+
+    const handleStopAfterShiftWork = () => {
+        sendPostRequest(`stop-non-working-time/`, {task_id: employeeTaskId})
+            .then((data) => {
+                    setShiftTime(false)
+                    console.log(data)
+            })
+    }
 
 
     const handleReworkRunningButtonClick = () => {
@@ -632,11 +654,27 @@ function CommentPage() {
 
                                 <Row>
                                     <div className="d-grid gap-2">
-                                        <Button className='buttons-timer' variant="secondary" size='lg'
-                                        >
-                                            Начать работу после смены
 
-                                        </Button>
+                                        {!shiftTime &&
+                                            <Button
+                                                className='buttons-timer'
+                                                variant="secondary"
+                                                size='lg'
+                                                onClick={handleStartAfterShiftWork}
+                                            >
+                                                Начать работу после смены
+                                            </Button>
+                                        }
+                                        {shiftTime &&
+                                            <Button
+                                                className='buttons-timer'
+                                                variant="secondary"
+                                                size='lg'
+                                                onClick={handleStopAfterShiftWork}
+                                            >
+                                                Закончить работу после смены
+                                            </Button>
+                                        }
                                     </div>
                                 </Row>
 

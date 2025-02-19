@@ -58,7 +58,7 @@ function App() {
         <Routes>
           <Route path="/" element={<UsersLoginPage />} />
           <Route path="/start" element={<ProtectedRouteUser element={<StartPage />}/>} />
-          <Route path="/login" element={<ProtectedRouteUser element={<LoginPage />}/>} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/spot/:id" element={<ProtectedRouteUser element={<SpotPage />}/>} />
           <Route path="/task/:id/:employeeId" element={<ProtectedRouteUser element={<TaskPage />}/>} />
           <Route path="/comment/:id/:employeeId/:taskId/" element={<ProtectedRouteUser element={<CommentPage />}/>} />

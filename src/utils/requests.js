@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver';
 
 //export const baseUrl = "http://localhost:8000";
-export const baseUrl = "http://188.225.36.203"; //  http://127.0.0.1:8000
+export const baseUrl = "http://127.0.0.1:8000"; //  http://127.0.0.1:8000 http://188.225.36.203:8000
 export const baseApiUrl = baseUrl + "/api/";
 //timer/?task_id=${taskId}&employee_id=${employeeId}
 export async function sendPostRequest(url, data) {
