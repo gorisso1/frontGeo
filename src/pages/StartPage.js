@@ -24,8 +24,14 @@ function StartPage() {
         const userId = localStorage.getItem('id')
         sendPostRequest(`start-shift/`, {employee_id: userId})
             .then((data) => {
-                if (data.error){
-                    alert("Вы администратор, войдите под сотрудником, чтобы начать смену")
+                if (data.error === 'Shift has not started yet'){
+                    alert("Смена еще не началась")
+                }
+                else if (data.error === 'Shift is already over'){
+                    alert("Смена уже закончилась")
+                }
+                else if (data.error ==='employee_id is required'){
+                    alert("Войдите как работник")
                 }
                 else if (data.message === 'Employee is already on shift'){
                     alert("Вы уже вышли на смену")

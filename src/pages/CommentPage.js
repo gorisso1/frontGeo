@@ -120,39 +120,40 @@ function CommentPage() {
         };
     }, [timerRunning]);
 
-    useEffect(() => {
-        let intervalRework;
-
-        if (timerReworkRunning) {
-            intervalRework = setInterval(() => {
-                setTimeRework((prevTime) => {
-                    const newSeconds = prevTime.seconds + 1;
-                    const newMinutes = prevTime.minutes + Math.floor(newSeconds / 60);
-                    const newHours = prevTime.hours + Math.floor(newMinutes / 60);
-
-                    return {
-                        hours: newHours,
-                        minutes: newMinutes % 60,
-                        seconds: newSeconds % 60,
-                    };
-                });
-            }, 1000);
-        } else {
-            clearInterval(intervalRework);
-        }
-
-        return () => {
-            clearInterval(intervalRework);
-        };
-    }, [timerReworkRunning]);
+    // useEffect(() => {
+    //     let intervalRework;
+    //
+    //     if (timerReworkRunning) {
+    //         intervalRework = setInterval(() => {
+    //             setTimeRework((prevTime) => {
+    //                 const newSeconds = prevTime.seconds + 1;
+    //                 const newMinutes = prevTime.minutes + Math.floor(newSeconds / 60);
+    //                 const newHours = prevTime.hours + Math.floor(newMinutes / 60);
+    //
+    //                 return {
+    //                     hours: newHours,
+    //                     minutes: newMinutes % 60,
+    //                     seconds: newSeconds % 60,
+    //                 };
+    //             });
+    //         }, 1000);
+    //     } else {
+    //         clearInterval(intervalRework);
+    //     }
+    //
+    //     return () => {
+    //         clearInterval(intervalRework);
+    //     };
+    // }, [timerReworkRunning]);
 
 
     useEffect(() => {
         sendGetRequest(`employee-tasks/?employee_id=${employeeId}&task_id=${taskId}`)
             .then((response) => {
+                console.log('response start: ', response)
                 if (response.detail !== "not found") {
                     setShowRedButton(true);
-                    const secondsStr = response.total_time;
+                    const secondsStr = response.useful_time;
                     setTime({
                         seconds: secondsStr % 60,
                         minutes: Math.floor(secondsStr / 60) % 60,
@@ -161,7 +162,31 @@ function CommentPage() {
                     setFormData({...formData, comment: response.employee_comment});
                     setDisabled(true);
                     setShowStartButton(false);
-                    setTimerRunning(!response.is_paused);
+
+                    if (response.is_after_shift_work === true){
+                        setShiftTime(response.is_after_shift_work)
+                    }
+
+                    if (response.is_paused === true) {
+                        // Пауза - приоритет, останавливаем все
+                        setTimerRunning(false);
+                        setTimerReworkRunning(false);
+                        console.log("Пауза");
+                    } else if (response.is_reworking === true) {
+                        // Переделка - останавливаем таймер и отмечаем состояние переделки
+                        setTimerRunning(false);
+                        setTimerReworkRunning(true);
+                        console.log("Переделка");
+                    } else {
+                        // Нет ни паузы, ни переделки - таймер работает
+                        setTimerRunning(true);
+                        setTimerReworkRunning(false);
+                        console.log("Таймер запущен");
+                    }
+
+                    // setTimerReworkRunning(true);
+                    // setTimerRunning(!response.is_reworking);
+
                 } else {
                     setShowRedButton(false);
                     setShowStartButton(true);
